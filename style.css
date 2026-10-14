@@ -33,6 +33,11 @@ p {
   color: gray;
 }
 
+input:focus {
+  border: none;
+  outline: none;
+}
+
 #file-explorer {
   width: 84%;
   height: 76%;
@@ -78,6 +83,94 @@ p {
   border-radius: 0px 8px 8px 0px;
   background-color: white;
   padding: 32px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+#file-explorer main .header {
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: rgba(0, 0, 0, 0.068); */
+}
+
+#file-explorer main .header .path {
+  display: flex;
+  gap: 8px;
+  font-size: medium;
+  font-weight: bold;
+}
+
+#file-explorer main .header .path .active {
+  color: black;
+}
+
+#file-explorer main .header .path .arrow {
+  font-weight: bold;
+}
+
+#file-explorer main .header .options {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: red; */
+}
+
+#file-explorer main .header .options .nav-controls {
+  display: flex;
+  width: 64px;
+  justify-content: space-between;
+  .left {
+    transform: scale(-1, 1);
+  }
+  img {
+    height: 14px;
+  }
+}
+
+#file-explorer main .header .options .nav-controls button {
+  background: none;
+  outline: none;
+  border: none;
+}
+
+#file-explorer main .header .options .nav-actions {
+  display: flex;
+  gap: 20px;
+}
+
+#file-explorer main .header .options .nav-actions button {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+#file-explorer main .header .options .nav-actions button img {
+  width: 14px;
+}
+
+#file-explorer main .header .options .search {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 2px 8px;
+}
+
+#file-explorer main .header .options .search input {
+  border: none;
+}
+
+#file-explorer main .header .options .search img {
+  width: 10px;
+  height: 10px;
+}
+
+#file-explorer main .folder-container {
+  flex-grow: 1;
+  /* background-color: rgba(79, 17, 186, 0.238); */
 }
 
 #file-explorer main .folder-container .object {
