@@ -5,10 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./js/script.js" defer></script>
 </head>
 
 <body>
+    <div id="file-explorer">
+        <aside class="navigation">
+            <h1>File Explorer</h1>
 
+            <div class="this-pc">
+                <h3>This PC</h3>
+                <div class="pc-folders">
+                    <div class="pc-folder">
+                        <img src="./images/recents.png" alt="" class="icon">
+                        <p>Recents</p>
+                    </div>
+                    <div class="pc-folder">
+                        <img src="./images/google-docs.png" alt="" class="icon">
+                        <p>Documents</p>
+                    </div>
+                    <div class="pc-folder">
+                        <img src="./images/download.png" alt="" class="icon">
+                        <p>Downloads</p>
+                    </div>
+                    <div class="pc-folder">
+                        <img src="./images/musical-note.png" alt="" class="icon">
+                        <p>Music</p>
+                    </div>
+                    <div class="pc-folder">
+                        <img src="./images/youtube.png" alt="" class="icon">
+                        <p>Videos</p>
+                    </div>
+                    <div class="pc-folder">
+                        <img src="./images/pictures.png" alt="" class="icon">
+                        <p>Pictures</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="explorer">
+            <div class="header">
+
+            </div>
+            <div class="folder-container">
+                <div class="object folder">
+                    <img src="./images/folder.png" alt="">
+                    <div class="name">
+                        <p>New Folder</p>
+                    </div> 
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>

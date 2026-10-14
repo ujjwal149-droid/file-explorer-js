@@ -1,0 +1,97 @@
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  font-family: "Inter";
+}
+
+h1 {
+  font-size: medium;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+
+h3 {
+  font-size: small;
+  font-weight: 600;
+}
+
+p {
+  font-size: smaller;
+  color: gray;
+}
+
+#file-explorer {
+  width: 84%;
+  height: 76%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+#file-explorer aside {
+  width: 25%;
+  height: 100%;
+  border-radius: 8px 0px 0px 8px;
+  background-color: rgba(216, 239, 255, 0.9);
+  padding: 32px 32px;
+}
+
+#file-explorer aside .this-pc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#file-explorer aside .this-pc .pc-folders {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#file-explorer aside .this-pc .pc-folders .pc-folder {
+  display: flex;
+  gap: 8px;
+}
+
+#file-explorer aside .this-pc .pc-folders .pc-folder img {
+  width: 16px;
+  height: 16px;
+}
+
+#file-explorer main {
+  height: 100%;
+  flex-grow: 1;
+  border-radius: 0px 8px 8px 0px;
+  background-color: white;
+  padding: 32px 32px;
+}
+
+#file-explorer main .folder-container .object {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+#file-explorer main .folder-container .object .visual {
+  width: 80%;
+}
+
+#file-explorer main .folder-container .object .name {
+  text-align: center;
+  font-size: small;
+}
