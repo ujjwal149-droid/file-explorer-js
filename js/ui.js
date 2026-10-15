@@ -1,4 +1,4 @@
-import { getNodes, createFolder } from "./filestystem.js";
+import { getNodes, createFolder, renameNode } from "./filestystem.js";
 let path = document.querySelector(".path");
 
 let folderContainer = document.getElementById("folder-container");
@@ -8,12 +8,80 @@ let nodes = getNodes();
 // -------------- DIALOGS / MODALS -----------------
 export function openCreateFolderDialog(currentDirectoryId) {
   let ctr = 0;
-  let success = createFolder("New Folder " + ctr, currentDirectoryId);
-  while (!success) {
+  let newId = null;
+
+  while (newId === null) {
+    const name = ctr === 0 ? "New Folder" : `New Folder (${ctr})`;
+
+    newId = createFolder(name, currentDirectoryId);
     ctr++;
-    success = createFolder("New Folder " + ctr, currentDirectoryId);
   }
+
   renderFolders(currentDirectoryId);
+
+  const folderElement = folderContainer.querySelector(`[data-id="${newId}"]`);
+
+  if (folderElement) {
+    startRename(folderElement, newId);
+  }
+}
+
+// -------------- RENAME -----------------
+export function startRename(folderElement, id) {
+  const nameElement = folderElement.querySelector(".name");
+  if (!nameElement) return;
+
+  const oldName = nameElement.textContent;
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = oldName;
+  input.className = "rename-input";
+
+  nameElement.replaceWith(input);
+
+  input.focus();
+  input.select();
+
+  let finished = false;
+
+  function finishRename(save) {
+    if (finished) return;
+    finished = true;
+
+    if (save) {
+      const success = renameNode(id, input.value);
+
+      if (!success) {
+        finished = false;
+        input.focus();
+        input.select();
+        return;
+      }
+    }
+
+    const newNameElement = document.createElement("p");
+    newNameElement.className = "name";
+    newNameElement.textContent = save ? input.value.trim() : oldName;
+
+    input.replaceWith(newNameElement);
+  }
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      finishRename(true);
+    }
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      finishRename(false);
+    }
+  });
+
+  input.addEventListener("blur", () => {
+    finishRename(true);
+  });
 }
 
 // -------------- RENDER PATH ----------------------

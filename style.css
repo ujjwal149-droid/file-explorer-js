@@ -250,3 +250,14 @@ input:focus {
   text-align: center;
   img { width: 128px; }
 }
+.rename-input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font: inherit;
+  text-align: center;
+  border: 1px solid #0078d4;
+  outline: none;
+  border-radius: 3px;
+  padding: 2px 4px;
+}

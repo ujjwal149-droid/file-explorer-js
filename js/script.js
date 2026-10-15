@@ -4,26 +4,33 @@ import {
   renderFolders,
   renderNav,
   renderPath,
+  startRename,
 } from "./ui.js";
 import { getNodes } from "./filestystem.js";
 
 let folderContainer = document.getElementById("folder-container");
 let navControls = document.querySelector(".nav-controls");
 let addFolderButton = document.querySelector(".add-folder");
+let renameButton = document.querySelector(".rename");
 let currentDirectoryId = 0;
 let directoryLog = [0];
 
-createFolder("NgEW", currentDirectoryId);
-createFolder("NgEsssW", 0);
 renderPath(currentDirectoryId);
 renderFolders(currentDirectoryId);
 renderNav(currentDirectoryId);
 
-createFolder("new1", 1);
-createFolder("New2", 1);
-
 addFolderButton.addEventListener("click", (e) => {
   openCreateFolderDialog(currentDirectoryId);
+});
+
+renameButton.addEventListener("click", (e) => {
+  const activeFolder = folderContainer.querySelector(".active");
+  if (!activeFolder) return;
+
+  e.preventDefault();
+
+  const id = Number(activeFolder.dataset.id);
+  startRename(activeFolder, id);
 });
 
 navControls.addEventListener("click", (e) => {
