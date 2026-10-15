@@ -18,10 +18,10 @@ nodes.set(rootId, {
 export function createFolder(name, parentId) {
   // validation
   if (!nodes.has(parentId) || nodes.get(parentId).type != ObjectType.FOLDER)
-    return;
+    return null;
 
-  if (nodes.get(parentId).children.has(name)) return;
-  if (name == "") return;
+  if (nodes.get(parentId).children.has(name)) return null;
+  if (name == "") return null;
 
   // creation
   const newId = ++idCounter;
