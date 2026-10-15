@@ -6,6 +6,11 @@ let folderContainer = document.getElementById("folder-container");
 const objectTemplate = document.querySelector(".object-template");
 let nodes = getNodes();
 
+// -------------- DIALOGS / MODALS -----------------
+export function openCreateFolderDialog() {
+  
+}
+
 // -------------- RENDER PATH ----------------------
 export function renderPath(currentDirectoryId) {
   path.innerHTML = "";
@@ -23,6 +28,15 @@ export function renderPath(currentDirectoryId) {
   let newEle = document.createElement("p");
   newEle.innerText = nodes.get(id).name;
   path.prepend(newEle);
+}
+
+export function renderNav(currentDirectoryId) {
+  let navControls = document.querySelector(".nav-controls");
+  if (currentDirectoryId == 0) {
+    navControls.querySelector(".left").disabled = true;
+  } else {
+    navControls.querySelector(".left").disabled = false;
+  }
 }
 
 // -------------- RENDER FOLDERS -------------------
