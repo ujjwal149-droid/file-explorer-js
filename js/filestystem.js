@@ -16,7 +16,7 @@ nodes.set(rootId, {
   children: new Map(),
 });
 
-function createFolder(name, parentId) {
+export function createFolder(name, parentId) {
   // validation
   if (!nodes.has(parentId) || nodes.get(parentId).type != ObjectType.FOLDER)
     return;
@@ -35,4 +35,8 @@ function createFolder(name, parentId) {
   });
 
   nodes.get(parentId).children.set(name, newId);
+}
+
+export function getNodes() {
+  return nodes;
 }

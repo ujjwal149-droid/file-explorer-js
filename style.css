@@ -168,13 +168,13 @@ input:focus {
   height: 10px;
 }
 
-#file-explorer main .folder-container {
+#file-explorer main #folder-container {
   flex-grow: 1;
   /* background-color: rgba(79, 17, 186, 0.238); */
   img { width: 100%;}
 }
 
-#file-explorer main .folder-container .object {
+#file-explorer main #folder-container .object {
   width: 64px;
   height: 64px;
   display: flex;
@@ -198,7 +198,7 @@ input:focus {
   height: 64px;
 } */
 
-#file-explorer main .folder-container .object .name {
+#file-explorer main #folder-container .object .name {
   text-align: center;
   font-size: small;
 }
