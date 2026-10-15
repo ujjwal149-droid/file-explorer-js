@@ -175,22 +175,35 @@ input:focus {
 
 #file-explorer main #folder-container {
   flex-grow: 1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  /* background-color: rgba(79, 17, 186, 0.238); */
-  img {
-    width: 100%;
-  }
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(120px, 1fr)
+  );
+
+  grid-auto-rows: 110px;
+  gap: 8px;
+  align-content: start;
+  overflow-y: scroll;
+}
+
+#file-explorer main #folder-container img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
 }
 
 #file-explorer main #folder-container .object {
-  width: 72px;
+  width: 100%;
   padding: 8px;
   height: min-content;
   display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 6px;
   flex-direction: column;
+  max-height: 128px;
 }
 
 #file-explorer main #folder-container .active {
@@ -199,6 +212,14 @@ input:focus {
 
 #file-explorer main #folder-container .object:hover {
   background-color: rgba(116, 213, 251, 0.523);
+}
+
+#folder-container .empty-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px;
+  text-align: left;
+  color: #777;
 }
 
 /* #file-explorer main .folder-container .local-disk {
@@ -218,12 +239,11 @@ input:focus {
   height: 64px;
 } */
 
-#file-explorer main #folder-container .object img {
-}
-
 #file-explorer main #folder-container .object .name {
   text-align: center;
   font-size: small;
+  width: 100%;
+  overflow: hidden;
 }
 
 .overlay {
@@ -250,11 +270,12 @@ input:focus {
   text-align: center;
   img { width: 128px; }
 }
+
 .rename-input {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
-  font: inherit;
+  font-size: small;
   text-align: center;
   border: 1px solid #0078d4;
   outline: none;

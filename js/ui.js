@@ -28,6 +28,7 @@ export function openCreateFolderDialog(currentDirectoryId) {
 
 // -------------- RENAME -----------------
 export function startRename(folderElement, id) {
+  folderElement.classList.add("active");
   const nameElement = folderElement.querySelector(".name");
   if (!nameElement) return;
 
@@ -60,7 +61,7 @@ export function startRename(folderElement, id) {
       }
     }
 
-    const newNameElement = document.createElement("p");
+    const newNameElement = document.createElement("div");
     newNameElement.className = "name";
     newNameElement.textContent = save ? input.value.trim() : oldName;
 
@@ -121,4 +122,11 @@ export function renderFolders(currentDirectoryId) {
     newFolder.dataset.id = id;
     folderContainer.appendChild(newFolder);
   });
+
+  if (folderContainer.childElementCount == 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.className = "empty-message";
+    emptyMessage.textContent = "This folder is empty";
+    folderContainer.appendChild(emptyMessage);
+  }
 }

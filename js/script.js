@@ -23,7 +23,7 @@ addFolderButton.addEventListener("click", (e) => {
   openCreateFolderDialog(currentDirectoryId);
 });
 
-renameButton.addEventListener("click", (e) => {
+function renameObject(e) {
   const activeFolder = folderContainer.querySelector(".active");
   if (!activeFolder) return;
 
@@ -31,6 +31,10 @@ renameButton.addEventListener("click", (e) => {
 
   const id = Number(activeFolder.dataset.id);
   startRename(activeFolder, id);
+}
+
+renameButton.addEventListener("click", (e) => {
+  renameObject(e);
 });
 
 navControls.addEventListener("click", (e) => {
@@ -70,3 +74,8 @@ function openFolder(id) {
   renderPath(currentDirectoryId);
   renderNav(currentDirectoryId);
 }
+
+// ---------------- KEYBOARD INPUTS -----------------
+document.addEventListener("keydown", (e) => {
+  if (e.key == "F2") renameObject(e);
+});
