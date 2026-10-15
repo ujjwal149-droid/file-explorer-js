@@ -5,7 +5,6 @@ const ObjectType = Object.freeze({
 
 const nodes = new Map();
 const rootId = 0;
-const currentDirectoryId = 0;
 let idCounter = 0;
 
 nodes.set(rootId, {

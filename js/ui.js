@@ -31,6 +31,7 @@ export function renderFolders(currentDirectoryId) {
   nodes.get(currentDirectoryId).children.forEach((id, name) => {
     let newFolder = objectTemplate.content.firstElementChild.cloneNode(true);
     newFolder.querySelector(".name").textContent = name;
+    newFolder.dataset.id = id;
     folderContainer.appendChild(newFolder);
   });
 }

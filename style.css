@@ -170,13 +170,17 @@ input:focus {
 
 #file-explorer main #folder-container {
   flex-grow: 1;
+  display: flex;
+  gap: 16px;
   /* background-color: rgba(79, 17, 186, 0.238); */
-  img { width: 100%;}
+  img {
+    width: 100%;
+  }
 }
 
 #file-explorer main #folder-container .object {
   width: 64px;
-  height: 64px;
+  height: min-content;
   display: flex;
   flex-direction: column;
 }
@@ -198,7 +202,12 @@ input:focus {
   height: 64px;
 } */
 
+#file-explorer main #folder-container .object img {
+  pointer-events: none;
+}
+
 #file-explorer main #folder-container .object .name {
   text-align: center;
   font-size: small;
+  pointer-events: none;
 }
