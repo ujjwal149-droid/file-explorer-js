@@ -171,6 +171,7 @@ input:focus {
 #file-explorer main .folder-container {
   flex-grow: 1;
   /* background-color: rgba(79, 17, 186, 0.238); */
+  img { width: 100%;}
 }
 
 #file-explorer main .folder-container .object {
@@ -180,9 +181,22 @@ input:focus {
   flex-direction: column;
 }
 
-#file-explorer main .folder-container .object .visual {
-  width: 80%;
+/* #file-explorer main .folder-container .local-disk {
+  width: 192px;
+  height: 64px;
+  background-color: red;
+  display: flex;
 }
+#file-explorer main .folder-container .local-disk .storage {
+  background-color: rgb(122, 64, 64);
+  height: 18px;
+  width: 124px;
+}
+
+#file-explorer main .folder-container .local-disk img{
+  width: 64px;
+  height: 64px;
+} */
 
 #file-explorer main .folder-container .object .name {
   text-align: center;
