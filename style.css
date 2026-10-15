@@ -176,6 +176,7 @@ input:focus {
 #file-explorer main #folder-container {
   flex-grow: 1;
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   /* background-color: rgba(79, 17, 186, 0.238); */
   img {
@@ -188,6 +189,7 @@ input:focus {
   padding: 8px;
   height: min-content;
   display: flex;
+  border-radius: 6px;
   flex-direction: column;
 }
 
@@ -226,7 +228,25 @@ input:focus {
 
 .overlay {
   position: absolute;
-  background: #b80c0c40;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); /* Semi-transparent color needed */
+  backdrop-filter: blur(10px);
   width: 100%;
   height: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-folder-modal {
+  background: rgba(0, 0, 0, 0.171);
+  padding: 48px;
+  border-radius: 8px;
+  text-align: center;
+  img { width: 128px; }
 }

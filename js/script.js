@@ -23,7 +23,7 @@ createFolder("new1", 1);
 createFolder("New2", 1);
 
 addFolderButton.addEventListener("click", (e) => {
-  openCreateFolderDialog();
+  openCreateFolderDialog(currentDirectoryId);
 });
 
 navControls.addEventListener("click", (e) => {

@@ -1,5 +1,4 @@
-import { getNodes } from "./filestystem.js";
-
+import { getNodes, createFolder } from "./filestystem.js";
 let path = document.querySelector(".path");
 
 let folderContainer = document.getElementById("folder-container");
@@ -7,8 +6,14 @@ const objectTemplate = document.querySelector(".object-template");
 let nodes = getNodes();
 
 // -------------- DIALOGS / MODALS -----------------
-export function openCreateFolderDialog() {
-  
+export function openCreateFolderDialog(currentDirectoryId) {
+  let ctr = 0;
+  let success = createFolder("New Folder " + ctr, currentDirectoryId);
+  while (!success) {
+    ctr++;
+    success = createFolder("New Folder " + ctr, currentDirectoryId);
+  }
+  renderFolders(currentDirectoryId);
 }
 
 // -------------- RENDER PATH ----------------------

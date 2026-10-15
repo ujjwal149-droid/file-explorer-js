@@ -34,6 +34,7 @@ export function createFolder(name, parentId) {
   });
 
   nodes.get(parentId).children.set(name, newId);
+  return true;
 }
 
 export function getNodes() {
