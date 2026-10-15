@@ -203,11 +203,9 @@ input:focus {
 } */
 
 #file-explorer main #folder-container .object img {
-  pointer-events: none;
 }
 
 #file-explorer main #folder-container .object .name {
   text-align: center;
   font-size: small;
-  pointer-events: none;
 }
