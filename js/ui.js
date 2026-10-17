@@ -8,6 +8,9 @@ const nodes = getNodes();
 
 // ------------------------- FOLDER CREATION --------------------------
 export function openCreateFolderDialog(currentDirectoryId) {
+  // Root is reserved for disks; folders are created inside a disk or folder.
+  if (currentDirectoryId === 0) return;
+
   // Pick the first available default name in this directory.
   let suffix = 0;
   let newId = null;

@@ -24,9 +24,7 @@ let st2 = new Stack();
 st1.push(currentDirectoryId);
 
 // Draw the initial view.
-renderPath(currentDirectoryId);
-renderFolders(currentDirectoryId);
-renderNav(currentDirectoryId, !st2.isEmpty());
+renderCurrentDirectory();
 
 // ------------------------- EXPLORER ACTIONS -------------------------
 addFolderButton.addEventListener("click", () => {
@@ -100,6 +98,7 @@ function renderCurrentDirectory() {
   renderFolders(currentDirectoryId);
   renderPath(currentDirectoryId);
   renderNav(currentDirectoryId, !st2.isEmpty());
+  addFolderButton.disabled = currentDirectoryId === 0;
 }
 
 // ------------------------- KEYBOARD SHORTCUTS -----------------------

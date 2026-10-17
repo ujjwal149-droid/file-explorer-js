@@ -165,6 +165,11 @@ input:focus {
   background: rgba(0, 0, 0, 0.1);
 }
 
+#file-explorer main .header .options .nav-actions button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 #file-explorer main .header .options .nav-actions button img {
   width: 16px;
 }

@@ -55,7 +55,7 @@ The two maps are related but serve different purposes: `nodes` finds any node by
 
 ### Creating disks and folders
 
-`createFolder(name, parentId)` looks up the parent and rejects the request if the parent cannot contain folders or already has a child with that name. On success, it increments `idCounter`, creates a node, adds the node to `nodes`, adds its name and ID to the parent's `children`, and returns the new ID. `createDisk()` uses the same internal logic with the `DISK` type. Both return `null` when creation fails.
+`createFolder(name, parentId)` looks up the parent and rejects the request if the parent cannot contain folders, is the root, or already has a child with that name. On success, it increments `idCounter`, creates a node, adds the node to `nodes`, adds its name and ID to the parent's `children`, and returns the new ID. `createDisk()` uses the same internal logic with the `DISK` type. Both return `null` when creation fails.
 
 ### Renaming a folder
 
@@ -89,7 +89,7 @@ The model is the source of truth. Rendering clears and rebuilds the visible elem
 
 ### Create
 
-Clicking the first `.add-folder` button calls `openCreateFolderDialog(currentDirectoryId)` in `ui.js`. Despite its name, this does not open a modal: it tries `New Folder`, then `New Folder (1)`, `New Folder (2)`, and so on until `createFolder()` succeeds. The UI is rendered again and the new folder immediately enters rename mode.
+Clicking the first `.add-folder` button calls `openCreateFolderDialog(currentDirectoryId)` in `ui.js`. This button is disabled at root because root is reserved for drives; create folders after opening a drive. Despite its name, the helper does not open a modal: it tries `New Folder`, then `New Folder (1)`, `New Folder (2)`, and so on until `createFolder()` succeeds. The UI is rendered again and the new folder immediately enters rename mode.
 
 ### Select and open
 

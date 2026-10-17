@@ -45,6 +45,9 @@ function createContainer(name, parentId, type) {
 
 // ------------------------- DISK AND FOLDER OPERATIONS ---------------
 export function createFolder(name, parentId) {
+  const parent = nodes.get(parentId);
+  if (parent?.id === rootId) return null;
+
   return createContainer(name, parentId, ObjectType.FOLDER);
 }
 
