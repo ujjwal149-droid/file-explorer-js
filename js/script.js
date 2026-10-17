@@ -1,4 +1,4 @@
-import { createFolder } from "./filestystem.js";
+import { getNodes } from "./filesystem.js";
 import {
   openCreateFolderDialog,
   renderFolders,
@@ -6,68 +6,67 @@ import {
   renderPath,
   startRename,
 } from "./ui.js";
-import { getNodes } from "./filestystem.js";
 
-let folderContainer = document.getElementById("folder-container");
-let navControls = document.querySelector(".nav-controls");
-let addFolderButton = document.querySelector(".add-folder");
-let renameButton = document.querySelector(".rename");
+// DOM elements used by the explorer's event handlers.
+const folderContainer = document.getElementById("folder-container");
+const navControls = document.querySelector(".nav-controls");
+const addFolderButton = document.querySelector(".add-folder");
+const renameButton = document.querySelector(".rename");
+
+// The current location and the locations visited on the way here.
 let currentDirectoryId = 0;
-let directoryLog = [0];
+const directoryLog = [currentDirectoryId];
 
+// Draw the initial view.
 renderPath(currentDirectoryId);
 renderFolders(currentDirectoryId);
 renderNav(currentDirectoryId);
 
-addFolderButton.addEventListener("click", (e) => {
+// ------------------------- EXPLORER ACTIONS -------------------------
+addFolderButton.addEventListener("click", () => {
   openCreateFolderDialog(currentDirectoryId);
 });
 
-function renameObject(e) {
+function renameActiveFolder(event) {
   const activeFolder = folderContainer.querySelector(".active");
   if (!activeFolder) return;
 
-  e.preventDefault();
-
-  const id = Number(activeFolder.dataset.id);
-  startRename(activeFolder, id);
+  event.preventDefault();
+  startRename(activeFolder, Number(activeFolder.dataset.id));
 }
 
-renameButton.addEventListener("click", (e) => {
-  renameObject(e);
+renameButton.addEventListener("click", renameActiveFolder);
+
+// ------------------------- FOLDER NAVIGATION ------------------------
+navControls.addEventListener("click", (event) => {
+  const backButton = event.target.closest(".left");
+  if (!backButton || currentDirectoryId === 0) return;
+
+  directoryLog.pop();
+  currentDirectoryId = directoryLog[directoryLog.length - 1];
+  renderFolders(currentDirectoryId);
 });
 
-navControls.addEventListener("click", (e) => {
-  const leftButton = e.target.closest(".left");
-  if (leftButton && currentDirectoryId != 0) {
-    currentDirectoryId = directoryLog[directoryLog.length - 2];
-    directoryLog.pop();
-    renderFolders(currentDirectoryId);
-  }
-});
-
-folderContainer.addEventListener("dblclick", (e) => {
-  const folder = e.target.closest("[data-id]");
-
+folderContainer.addEventListener("dblclick", (event) => {
+  const folder = event.target.closest("[data-id]");
   if (!folder || !folderContainer.contains(folder)) return;
 
   openFolder(Number(folder.dataset.id));
 });
 
-folderContainer.addEventListener("click", (e) => {
-  const lastActive = folderContainer.querySelector(".active");
+folderContainer.addEventListener("click", (event) => {
+  folderContainer.querySelector(".active")?.classList.remove("active");
 
-  if (lastActive) lastActive.classList.remove("active");
-  const folder = e.target.closest("[data-id]");
-
+  const folder = event.target.closest("[data-id]");
   if (!folder || !folderContainer.contains(folder)) return;
+
   folder.classList.add("active");
 });
 
 function openFolder(id) {
   const node = getNodes().get(id);
-
   if (!node || node.type !== "FOLDER") return;
+
   currentDirectoryId = id;
   directoryLog.push(id);
   renderFolders(currentDirectoryId);
@@ -75,7 +74,7 @@ function openFolder(id) {
   renderNav(currentDirectoryId);
 }
 
-// ---------------- KEYBOARD INPUTS -----------------
-document.addEventListener("keydown", (e) => {
-  if (e.key == "F2") renameObject(e);
+// ------------------------- KEYBOARD SHORTCUTS -----------------------
+document.addEventListener("keydown", (event) => {
+  if (event.key === "F2") renameActiveFolder(event);
 });

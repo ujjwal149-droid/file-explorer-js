@@ -1,10 +1,18 @@
----------- Architecture -------------
+File Explorer
 
---> filesystem.js
-Stores nodes and implements operations such as createFolder().
+Project structure
 
---> ui.js
-Implements renderFolders() and renderPath().
+--> js/filesystem.js
+    Stores the in-memory folder tree and provides folder operations.
 
---> script.js
-Tracks the current directory, handles clicks, and calls the rendering functions.
+--> js/ui.js
+    Creates and updates folder elements, breadcrumbs, and inline renaming.
+
+--> js/script.js
+    Initializes the explorer and handles navigation, selection, and shortcuts.
+
+--> index.html
+    Defines the explorer layout and the folder item template.
+
+--> style.css
+    Styles the page, toolbar, folder grid, and inline rename field.

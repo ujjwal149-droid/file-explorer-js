@@ -1,44 +1,41 @@
-import { getNodes, createFolder, renameNode } from "./filestystem.js";
-let path = document.querySelector(".path");
+import { createFolder, getNodes, renameNode } from "./filesystem.js";
 
-let folderContainer = document.getElementById("folder-container");
+// Shared elements and data used by the rendering helpers.
+const path = document.querySelector(".path");
+const folderContainer = document.getElementById("folder-container");
 const objectTemplate = document.querySelector(".object-template");
-let nodes = getNodes();
+const nodes = getNodes();
 
-// -------------- DIALOGS / MODALS -----------------
+// ------------------------- FOLDER CREATION --------------------------
 export function openCreateFolderDialog(currentDirectoryId) {
-  let ctr = 0;
+  // Pick the first available default name in this directory.
+  let suffix = 0;
   let newId = null;
 
   while (newId === null) {
-    const name = ctr === 0 ? "New Folder" : `New Folder (${ctr})`;
-
+    const name = suffix === 0 ? "New Folder" : `New Folder (${suffix})`;
     newId = createFolder(name, currentDirectoryId);
-    ctr++;
+    suffix++;
   }
 
   renderFolders(currentDirectoryId);
 
   const folderElement = folderContainer.querySelector(`[data-id="${newId}"]`);
-
-  if (folderElement) {
-    startRename(folderElement, newId);
-  }
+  if (folderElement) startRename(folderElement, newId);
 }
 
-// -------------- RENAME -----------------
+// ------------------------- FOLDER RENAMING --------------------------
 export function startRename(folderElement, id) {
   folderElement.classList.add("active");
+
   const nameElement = folderElement.querySelector(".name");
   if (!nameElement) return;
 
   const oldName = nameElement.textContent;
-
   const input = document.createElement("input");
   input.type = "text";
   input.value = oldName;
   input.className = "rename-input";
-
   nameElement.replaceWith(input);
 
   input.focus();
@@ -52,8 +49,8 @@ export function startRename(folderElement, id) {
 
     if (save) {
       const success = renameNode(id, input.value);
-
       if (!success) {
+        // Keep editing when the name is empty or already used by a sibling.
         finished = false;
         input.focus();
         input.select();
@@ -64,66 +61,66 @@ export function startRename(folderElement, id) {
     const newNameElement = document.createElement("div");
     newNameElement.className = "name";
     newNameElement.textContent = save ? input.value.trim() : oldName;
-
     input.replaceWith(newNameElement);
   }
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
       finishRename(true);
     }
 
-    if (e.key === "Escape") {
-      e.preventDefault();
+    if (event.key === "Escape") {
+      event.preventDefault();
       finishRename(false);
     }
   });
 
-  input.addEventListener("blur", () => {
-    finishRename(true);
-  });
+  // Clicking away saves the edited name, matching Enter.
+  input.addEventListener("blur", () => finishRename(true));
 }
 
-// -------------- RENDER PATH ----------------------
+// ------------------------- PATH AND NAVIGATION ----------------------
 export function renderPath(currentDirectoryId) {
   path.innerHTML = "";
   let id = currentDirectoryId;
-  while (id != 0) {
-    let newEle = document.createElement("p");
-    newEle.innerText = nodes.get(id).name;
-    let newArrow = document.createElement("p");
-    newArrow.innerText = ">";
-    path.prepend(newEle);
-    path.prepend(newArrow);
-    id = nodes.get(id).parentId;
+
+  // Walk from the current folder to the root, prepending each breadcrumb.
+  while (id !== 0) {
+    const folder = nodes.get(id);
+    const folderName = document.createElement("p");
+    folderName.textContent = folder.name;
+
+    const arrow = document.createElement("p");
+    arrow.textContent = ">";
+    path.prepend(folderName);
+    path.prepend(arrow);
+
+    id = folder.parentId;
   }
 
-  let newEle = document.createElement("p");
-  newEle.innerText = nodes.get(id).name;
-  path.prepend(newEle);
+  const rootName = document.createElement("p");
+  rootName.textContent = nodes.get(id).name;
+  path.prepend(rootName);
 }
 
 export function renderNav(currentDirectoryId) {
-  let navControls = document.querySelector(".nav-controls");
-  if (currentDirectoryId == 0) {
-    navControls.querySelector(".left").disabled = true;
-  } else {
-    navControls.querySelector(".left").disabled = false;
-  }
+  const backButton = document.querySelector(".nav-controls .left");
+  backButton.disabled = currentDirectoryId === 0;
 }
 
-// -------------- RENDER FOLDERS -------------------
+// ------------------------- FOLDER CONTENTS --------------------------
 export function renderFolders(currentDirectoryId) {
   folderContainer.innerHTML = "";
+
   nodes.get(currentDirectoryId).children.forEach((id, name) => {
-    let newFolder = objectTemplate.content.firstElementChild.cloneNode(true);
-    newFolder.querySelector(".name").textContent = name;
-    newFolder.dataset.id = id;
-    folderContainer.appendChild(newFolder);
+    const folder = objectTemplate.content.firstElementChild.cloneNode(true);
+    folder.querySelector(".name").textContent = name;
+    folder.dataset.id = id;
+    folderContainer.appendChild(folder);
   });
 
-  if (folderContainer.childElementCount == 0) {
+  if (folderContainer.childElementCount === 0) {
     const emptyMessage = document.createElement("p");
     emptyMessage.className = "empty-message";
     emptyMessage.textContent = "This folder is empty";
