@@ -73,7 +73,7 @@ The folder grid in `index.html` contains a `<template class="object-template">`.
 
 If there are no children, the function inserts a `This folder is empty` message instead.
 
-The model is the source of truth. Rendering clears and rebuilds the visible elements from the model rather than treating the DOM as the stored data. Disk nodes use the local-disk icon; folder nodes use the folder icon.
+The model is the source of truth. Rendering clears and rebuilds the visible elements from the model rather than treating the DOM as the stored data. Disks use the sketch-theme hard-drive icon, the seeded standard folders use category-specific icons, and other folders use the sketch-theme folder icon.
 
 ### Breadcrumbs
 

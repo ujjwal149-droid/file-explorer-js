@@ -1,10 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url(https://fonts.googleapis.com/css?family=Cabin+Sketch:regular,700);
 
 /* ------------------------- BASE AND PAGE LAYOUT ------------------------- */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Cabin Sketch";
 }
 
 body {
@@ -15,7 +17,6 @@ body {
   background-image: url("./images/bg2.jpg");
   background-size: cover;
   background-position: center;
-  font-family: "Inter";
 }
 
 h1 {
@@ -122,11 +123,11 @@ input:focus {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  .left {
+  .right {
     transform: scale(-1, 1);
   }
   img {
-    height: 16px;
+    height: 20px;
   }
 }
 
@@ -149,7 +150,7 @@ input:focus {
 
 #file-explorer main .header .options .nav-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 #file-explorer main .header .options .nav-actions button {
@@ -171,16 +172,17 @@ input:focus {
 }
 
 #file-explorer main .header .options .nav-actions button img {
-  width: 16px;
+  width: 20px;
 }
 
 #file-explorer main .header .options .search {
-  display: flex;
+  display:flex;
+  flex-direction: row-reverse;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
   border-radius: 4px;
   border: 1px solid gray;
-  padding: 2px 8px;
+  padding: 4px 12px;
 }
 
 #file-explorer main .header .options .search input {
@@ -188,8 +190,8 @@ input:focus {
 }
 
 #file-explorer main .header .options .search img {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
 }
 
 #file-explorer main #folder-container {

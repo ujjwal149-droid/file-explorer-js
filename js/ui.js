@@ -5,6 +5,13 @@ const path = document.querySelector(".path");
 const folderContainer = document.getElementById("folder-container");
 const objectTemplate = document.querySelector(".object-template");
 const nodes = getNodes();
+const defaultFolderIcons = new Map([
+  ["Documents", "./images/sketch-theme/documents-folder.png"],
+  ["Downloads", "./images/sketch-theme/downloads-folder.png"],
+  ["Music", "./images/sketch-theme/music-folder.png"],
+  ["Videos", "./images/sketch-theme/video-folder.png"],
+  ["Pictures", "./images/sketch-theme/photo-gallery.png"],
+]);
 
 // ------------------------- FOLDER CREATION --------------------------
 export function openCreateFolderDialog(currentDirectoryId) {
@@ -129,7 +136,10 @@ export function renderFolders(currentDirectoryId) {
     folder.querySelector(".name").textContent = name;
     folder.dataset.id = id;
     folder.classList.toggle("disk", node.type === "DISK");
-    icon.src = node.type === "DISK" ? "./images/local-disk.png" : "./images/folder.png";
+    icon.src =
+      node.type === "DISK"
+        ? "./images/sketch-theme/hard-drive.png"
+        : defaultFolderIcons.get(name) ?? "./images/sketch-theme/folder.png";
     icon.alt = node.type === "DISK" ? "Disk" : "Folder";
     folderContainer.appendChild(folder);
   });

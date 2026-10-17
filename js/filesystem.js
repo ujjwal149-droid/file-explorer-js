@@ -88,6 +88,6 @@ export function getNodes() {
 const mainDiskId = createDisk("Local Disk (C:)", rootId);
 createDisk("Local Disk (D:)", rootId);
 
-["Recents", "Documents", "Downloads", "Music", "Videos", "Pictures"].forEach(
+["Documents", "Downloads", "Music", "Videos", "Pictures"].forEach(
   (name) => createFolder(name, mainDiskId),
 );
