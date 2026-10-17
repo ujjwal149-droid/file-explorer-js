@@ -77,9 +77,9 @@ The model is the source of truth. Rendering clears and rebuilds the visible fold
 
 `renderPath(currentDirectoryId)` starts at the current folder and follows `parentId` links until it reaches root ID `0`. It prepends each folder name and `>` separator so the final visual order goes from root to the current folder.
 
-### Back-button state
+### Navigation-button state
 
-`renderNav(currentDirectoryId)` disables the left/back button at root and enables it for other folders.
+`renderNav(currentDirectoryId, canGoForward)` disables the left/back button at root and disables the right/forward button when there is no forward history.
 
 ## 6. User interactions and event flow
 
@@ -93,11 +93,13 @@ Clicking the first `.add-folder` button calls `openCreateFolderDialog(currentDir
 
 - A single click on a folder adds the `.active` class, after removing it from the previously selected folder.
 - A double-click finds the closest ancestor with `data-id`, converts that ID to a number, and calls `openFolder()`.
-- `openFolder()` verifies that the ID exists and is a folder, updates the current ID and navigation log, then renders the contents, path, and back-button state.
+- `openFolder()` verifies that the ID exists and is a folder, updates the current ID and navigation history, then renders the contents, path, and navigation-button states.
 
-### Go back
+### Go back and forward
 
-The left button removes the current entry from `directoryLog` and restores the previous ID, then renders that folder's contents. The `directoryLog` starts as `[0]` and adds an ID each time a folder is opened.
+`script.js` uses two `Stack` instances. The back stack (`st1`) starts with root ID `0`; each opened folder is pushed onto it. On Back, the current ID is pushed onto the forward stack (`st2`), removed from the back stack, and the new back-stack top becomes the current ID. On Forward, the current ID is pushed onto the back stack and the forward-stack top is popped to become current. Both actions redraw the folder grid, breadcrumb, and navigation buttons.
+
+Opening a new folder after going back clears the forward stack because the new route branches away from the old one. `Stack.clear()` empties that history.
 
 ### Rename
 
@@ -111,9 +113,9 @@ Clicking the rename button or pressing F2 calls `renameActiveFolder()`. If a fol
 ## 7. Important current behavior to remember
 
 - The tree is in memory only. A page reload starts with an empty root again.
-- The sidebar entries, search field, right navigation button, sort, cut, paste, and copy icons are presentational; they do not currently have working handlers.
+- The sidebar entries, search field, sort, cut, paste, and copy icons are presentational; they do not currently have working handlers.
 - Several toolbar buttons share `.add-folder`, but `script.js` uses `querySelector()`, which attaches the create handler only to the first matching button.
-- The back handler redraws the folder grid but does not call `renderPath()` or `renderNav()`. As a result, the breadcrumb and back-button disabled state can be stale after going back. This is a useful place to revisit when extending navigation.
+- The root breadcrumb currently has a trailing `>` separator; review `renderPath()` if adjusting breadcrumb formatting.
 - `ObjectType.FILE` is declared, but the current model and UI only create and display folders.
 - `openCreateFolderDialog()` is a folder-creation helper, not a dialog implementation.
 
@@ -156,7 +158,7 @@ Keep this section separate from the walkthrough as a quick study checklist.
 
 - `currentDirectoryId` is application state: it identifies which folder's children should be rendered.
 - Numeric IDs remain stable when a folder is renamed; names are labels and sibling lookup keys.
-- `directoryLog` is a stack-like history. `push()` records a visit and `pop()` removes the current visit to go back.
+- The back and forward stacks (`st1` and `st2`) support browser-style history. `push()` records a location and `pop()` moves the most recent location between the stacks.
 - If multiple UI elements display the same state, every navigation path should update all of them. Here, that means keeping the folder grid, breadcrumb, and back-button state in sync.
 
 ### Validation and UI editing

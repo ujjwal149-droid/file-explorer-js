@@ -106,9 +106,12 @@ export function renderPath(currentDirectoryId) {
   path.prepend(rootName);
 }
 
-export function renderNav(currentDirectoryId) {
+export function renderNav(currentDirectoryId, canGoForward = false) {
   const backButton = document.querySelector(".nav-controls .left");
+  const forwardButton = document.querySelector(".nav-controls .right");
+
   backButton.disabled = currentDirectoryId === 0;
+  forwardButton.disabled = !canGoForward;
 }
 
 // ------------------------- FOLDER CONTENTS --------------------------
