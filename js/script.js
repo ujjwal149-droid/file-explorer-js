@@ -13,6 +13,9 @@ const folderContainer = document.getElementById("folder-container");
 const navControls = document.querySelector(".nav-controls");
 const addFolderButton = document.querySelector(".add-folder");
 const renameButton = document.querySelector(".rename");
+const appWindow = document.getElementById("app-window");
+const minimizeButton = document.getElementById("minimize-explorer");
+const explorerShortcut = document.getElementById("explorer-shortcut");
 
 // The current location
 let currentDirectoryId = 0;
@@ -27,6 +30,18 @@ st1.push(currentDirectoryId);
 renderCurrentDirectory();
 
 // ------------------------- EXPLORER ACTIONS -------------------------
+minimizeButton.addEventListener("click", () => {
+  appWindow.hidden = true;
+  explorerShortcut.setAttribute("aria-pressed", "false");
+  explorerShortcut.focus();
+});
+
+explorerShortcut.addEventListener("dblclick", () => {
+  appWindow.hidden = false;
+  explorerShortcut.setAttribute("aria-pressed", "true");
+  minimizeButton.focus();
+});
+
 addFolderButton.addEventListener("click", () => {
   openCreateFolderDialog(currentDirectoryId);
 });

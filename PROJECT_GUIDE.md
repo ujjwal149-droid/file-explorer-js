@@ -14,9 +14,9 @@ The project currently has no server or database. Reloading the page resets the t
 
 | File | Responsibility |
 | --- | --- |
-| `index.html` | Defines the explorer layout and the reusable folder template. Loads the JavaScript entry point as an ES module. |
-| `style.css` | Styles the page, sidebar, toolbar, folder grid, and inline rename input. |
-| `js/script.js` | Starts the UI, tracks the current folder and navigation history, and handles user events. |
+| `index.html` | Defines the desktop shortcut, explorer window, layout, and reusable folder template. Loads the JavaScript entry point as an ES module. |
+| `style.css` | Styles the desktop, explorer window, sidebar, toolbar, folder grid, and inline rename input. |
+| `js/script.js` | Starts the UI, tracks the current folder and navigation history, and handles user events including minimize and restore. |
 | `js/ui.js` | Creates and updates DOM elements for folders, breadcrumbs, empty states, and renaming. |
 | `js/filesystem.js` | Holds the in-memory folder model and provides create and rename operations. |
 | `images/` | Contains icons and background images referenced by the HTML and CSS. |
@@ -111,6 +111,10 @@ Clicking the rename button or pressing F2 calls `renameActiveFolder()`. If a fol
 - Escape restores the original visible name without saving.
 - Leaving the input (blur) tries to save.
 - An invalid or duplicate name leaves the input open so it can be corrected.
+
+### Minimize and restore
+
+The title bar's minimize button hides `#app-window` and clears the desktop shortcut's pressed state. The shortcut stays pressed while the window is open; double-clicking it unhides the window, restores its pressed state, and returns focus to the minimize button.
 
 ## 7. Important current behavior to remember
 

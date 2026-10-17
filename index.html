@@ -10,8 +10,27 @@
 </head>
 
 <body>
-    <!-- Sidebar navigation and the active folder view. -->
-    <div id="file-explorer">
+    <div id="desktop" aria-label="Desktop">
+        <button id="explorer-shortcut" class="desktop-shortcut" type="button" aria-label="Open File Explorer"
+            aria-pressed="true">
+            <img src="./images/sketch-theme/icons/old-computer.png" alt="">
+            <span>File Explorer</span>
+        </button>
+    </div>
+
+    <section id="app-window" aria-label="File Explorer window">
+        <div class="window-titlebar">
+            <span>File Explorer</span>
+            <button id="minimize-explorer" type="button" aria-label="Minimize File Explorer"
+                title="Minimize">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M3 11.5h10" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Sidebar navigation and the active folder view. -->
+        <div id="file-explorer">
         <aside class="navigation">
             <h1>File Explorer</h1>
 
@@ -86,7 +105,8 @@
                 </template>
             </div>
         </main>
-    </div>
+        </div>
+    </section>
 </body>
 
 </html>
