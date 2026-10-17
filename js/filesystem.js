@@ -1,5 +1,6 @@
-// In-memory model for the folders shown by the explorer.
+// In-memory model for the disks and folders shown by the explorer.
 const ObjectType = Object.freeze({
+  DISK: "DISK",
   FOLDER: "FOLDER",
   FILE: "FILE",
 });
@@ -17,25 +18,38 @@ const nodes = new Map([
 
 let idCounter = rootId;
 
-// ------------------------- FOLDER OPERATIONS ------------------------
-export function createFolder(name, parentId) {
+// Disks and folders can contain folders; files cannot.
+function canContainFolders(node) {
+  return node?.type === ObjectType.DISK || node?.type === ObjectType.FOLDER;
+}
+
+function createContainer(name, parentId, type) {
   const parent = nodes.get(parentId);
 
-  // A folder name must be non-empty and unique within its parent.
-  if (!parent || parent.type !== ObjectType.FOLDER) return null;
+  // Names must be non-empty and unique within their parent.
+  if (!canContainFolders(parent)) return null;
   if (name === "" || parent.children.has(name)) return null;
 
   const newId = ++idCounter;
   nodes.set(newId, {
     id: newId,
     name,
-    type: ObjectType.FOLDER,
+    type,
     parentId,
     children: new Map(),
   });
 
   parent.children.set(name, newId);
   return newId;
+}
+
+// ------------------------- DISK AND FOLDER OPERATIONS ---------------
+export function createFolder(name, parentId) {
+  return createContainer(name, parentId, ObjectType.FOLDER);
+}
+
+export function createDisk(name, parentId) {
+  return createContainer(name, parentId, ObjectType.DISK);
 }
 
 export function renameNode(id, newName) {
@@ -66,3 +80,11 @@ export function renameNode(id, newName) {
 export function getNodes() {
   return nodes;
 }
+
+// ------------------------- INITIAL EXPLORER CONTENTS -----------------
+const mainDiskId = createDisk("Local Disk (C:)", rootId);
+createDisk("Local Disk (D:)", rootId);
+
+["Recents", "Documents", "Downloads", "Music", "Videos", "Pictures"].forEach(
+  (name) => createFolder(name, mainDiskId),
+);

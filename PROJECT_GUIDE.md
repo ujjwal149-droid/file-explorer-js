@@ -4,9 +4,11 @@ Use this guide to trace how the project works and review the JavaScript and brow
 
 ## 1. Project at a glance
 
-This is a small browser-based file explorer interface. It stores folders in JavaScript memory, builds the visible folder grid from that data, and lets you navigate, select, create, and rename folders.
+This is a small browser-based file explorer interface. It stores disks and folders in JavaScript memory, builds the visible grid from that data, and lets you navigate, select, create, and rename folders.
 
-The project currently has no server or database. Reloading the page resets the folder tree and all folders created during that session.
+At startup, the root contains `Local Disk (C:)` and `Local Disk (D:)`. The C: disk starts with Recents, Documents, Downloads, Music, Videos, and Pictures folders. The D: disk starts empty.
+
+The project currently has no server or database. Reloading the page resets the tree to these default disks and folders and removes anything created during that session.
 
 ## 2. Files and responsibilities
 
@@ -32,13 +34,13 @@ The project currently has no server or database. Reloading the page resets the f
 
 `filesystem.js` keeps all folders in a `Map` named `nodes`. A map entry uses a numeric ID as its key and a node object as its value. The root node has ID `0`.
 
-Each folder node looks like this:
+Each disk or folder node looks like this:
 
 ```js
 {
   id: 1,
   name: "Projects",
-  type: "FOLDER",
+  type: "FOLDER", // A disk node uses "DISK" here.
   parentId: 0,
   children: new Map()
 }
@@ -51,9 +53,9 @@ The model stores each parent-child relationship in two useful ways:
 
 The two maps are related but serve different purposes: `nodes` finds any node by ID; `children` finds the IDs of one folder's immediate children by name. The app relies on names being unique within a single parent folder.
 
-### Creating a folder
+### Creating disks and folders
 
-`createFolder(name, parentId)` looks up the parent and rejects the request if the parent does not exist, is not a folder, or already has a child with that name. On success, it increments `idCounter`, creates a node, adds the node to `nodes`, adds its name and ID to the parent's `children`, and returns the new ID. It returns `null` when creation fails.
+`createFolder(name, parentId)` looks up the parent and rejects the request if the parent cannot contain folders or already has a child with that name. On success, it increments `idCounter`, creates a node, adds the node to `nodes`, adds its name and ID to the parent's `children`, and returns the new ID. `createDisk()` uses the same internal logic with the `DISK` type. Both return `null` when creation fails.
 
 ### Renaming a folder
 
@@ -71,7 +73,7 @@ The folder grid in `index.html` contains a `<template class="object-template">`.
 
 If there are no children, the function inserts a `This folder is empty` message instead.
 
-The model is the source of truth. Rendering clears and rebuilds the visible folder elements from the model rather than treating the DOM as the stored folder data.
+The model is the source of truth. Rendering clears and rebuilds the visible elements from the model rather than treating the DOM as the stored data. Disk nodes use the local-disk icon; folder nodes use the folder icon.
 
 ### Breadcrumbs
 
@@ -112,11 +114,11 @@ Clicking the rename button or pressing F2 calls `renameActiveFolder()`. If a fol
 
 ## 7. Important current behavior to remember
 
-- The tree is in memory only. A page reload starts with an empty root again.
+- The tree is in memory only. A page reload restores the seeded disks and folders and removes anything created during that session.
 - The sidebar entries, search field, sort, cut, paste, and copy icons are presentational; they do not currently have working handlers.
 - Several toolbar buttons share `.add-folder`, but `script.js` uses `querySelector()`, which attaches the create handler only to the first matching button.
 - The root breadcrumb currently has a trailing `>` separator; review `renderPath()` if adjusting breadcrumb formatting.
-- `ObjectType.FILE` is declared, but the current model and UI only create and display folders.
+- `ObjectType.FILE` is declared, but the current model and UI only create and display disks and folders.
 - `openCreateFolderDialog()` is a folder-creation helper, not a dialog implementation.
 
 ## 8. Topics and concepts worth revising

@@ -87,7 +87,7 @@ folderContainer.addEventListener("click", (event) => {
 
 function openFolder(id) {
   const node = getNodes().get(id);
-  if (!node || node.type !== "FOLDER") return;
+  if (!node || (node.type !== "DISK" && node.type !== "FOLDER")) return;
 
   // A new route invalidates any locations saved by going Back.
   st2.clear();

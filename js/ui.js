@@ -120,8 +120,14 @@ export function renderFolders(currentDirectoryId) {
 
   nodes.get(currentDirectoryId).children.forEach((id, name) => {
     const folder = objectTemplate.content.firstElementChild.cloneNode(true);
+    const node = nodes.get(id);
+    const icon = folder.querySelector("img");
+
     folder.querySelector(".name").textContent = name;
     folder.dataset.id = id;
+    folder.classList.toggle("disk", node.type === "DISK");
+    icon.src = node.type === "DISK" ? "./images/local-disk.png" : "./images/folder.png";
+    icon.alt = node.type === "DISK" ? "Disk" : "Folder";
     folderContainer.appendChild(folder);
   });
 
