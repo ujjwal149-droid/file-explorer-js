@@ -84,7 +84,6 @@ export function startRename(folderElement, id) {
 export function renderPath(currentDirectoryId) {
   path.innerHTML = "";
   let id = currentDirectoryId;
-
   // Walk from the current folder to the root, prepending each breadcrumb.
   while (id !== 0) {
     const folder = nodes.get(id);
@@ -93,14 +92,17 @@ export function renderPath(currentDirectoryId) {
 
     const arrow = document.createElement("p");
     arrow.textContent = ">";
-    path.prepend(folderName);
     path.prepend(arrow);
+    path.prepend(folderName);
 
     id = folder.parentId;
   }
 
   const rootName = document.createElement("p");
   rootName.textContent = nodes.get(id).name;
+  const arrow = document.createElement("p");
+  arrow.textContent = ">";
+  path.prepend(arrow);
   path.prepend(rootName);
 }
 

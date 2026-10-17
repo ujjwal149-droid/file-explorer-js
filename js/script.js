@@ -13,9 +13,8 @@ const navControls = document.querySelector(".nav-controls");
 const addFolderButton = document.querySelector(".add-folder");
 const renameButton = document.querySelector(".rename");
 
-// The current location and the locations visited on the way here.
+// The current location
 let currentDirectoryId = 0;
-const directoryLog = [currentDirectoryId];
 
 // Draw the initial view.
 renderPath(currentDirectoryId);
@@ -41,10 +40,11 @@ renameButton.addEventListener("click", renameActiveFolder);
 navControls.addEventListener("click", (event) => {
   const backButton = event.target.closest(".left");
   if (!backButton || currentDirectoryId === 0) return;
-
-  directoryLog.pop();
-  currentDirectoryId = directoryLog[directoryLog.length - 1];
+  let nodes = getNodes();
+  currentDirectoryId = nodes.get(currentDirectoryId).parentId;
   renderFolders(currentDirectoryId);
+  renderNav(currentDirectoryId);
+  renderPath(currentDirectoryId);
 });
 
 folderContainer.addEventListener("dblclick", (event) => {
@@ -68,7 +68,6 @@ function openFolder(id) {
   if (!node || node.type !== "FOLDER") return;
 
   currentDirectoryId = id;
-  directoryLog.push(id);
   renderFolders(currentDirectoryId);
   renderPath(currentDirectoryId);
   renderNav(currentDirectoryId);
